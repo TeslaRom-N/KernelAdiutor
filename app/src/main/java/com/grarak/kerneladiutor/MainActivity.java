@@ -289,8 +289,8 @@ public class MainActivity extends BaseActivity implements Constants {
         ITEMS.add(new DAdapter.Item(getString(R.string.initd), new InitdFragment()));
         ITEMS.add(new DAdapter.Header(getString(R.string.other)));
         ITEMS.add(new DAdapter.Item(getString(R.string.settings), new SettingsFragment()));
-        ITEMS.add(new DAdapter.Item(getString(R.string.faq), new FAQFragment()));
-        ITEMS.add(new DAdapter.Item(getString(R.string.about_us), new AboutusFragment()));
+        //ITEMS.add(new DAdapter.Item(getString(R.string.faq), new FAQFragment()));
+        //ITEMS.add(new DAdapter.Item(getString(R.string.about_us), new AboutusFragment()));
     }
 
     /**
