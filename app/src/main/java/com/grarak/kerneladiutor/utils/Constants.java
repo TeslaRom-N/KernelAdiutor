@@ -88,12 +88,13 @@ public interface Constants {
             CPU_AVAILABLE_CFS_SCHEDULERS, CPU_CURRENT_CFS_SCHEDULER, CPU_QUIET, CPU_BOOST, CPU_TOUCH_BOOST};
 
   //Core Control
+    String BCH = "/sys/kernel/boeffla_config_mode/enabled";
     String MINBIG = "/sys/devices/system/cpu/cpu4/core_ctl/min_cpus";
     String MINLITTLE = "/sys/devices/system/cpu/cpu0/core_ctl/min_cpus";
     String MAXBIG = "/sys/devices/system/cpu/cpu4/core_ctl/max_cpus";
     String MAXLITTLE = "/sys/devices/system/cpu/cpu0/core_ctl/max_cpus";
 
-   String[] CORECONTROL_ARRAY = {MINBIG, MINLITTLE, MAXBIG, MAXLITTLE};
+   String[] CORECONTROL_ARRAY = {MINBIG, MINLITTLE, MAXBIG, MAXLITTLE, BCH};
     // CPU Voltage
     String CPU_VOLTAGE = "/sys/devices/system/cpu/cpu0/cpufreq/UV_mV_table";
     String CPU_VDD_VOLTAGE = "/sys/devices/system/cpu/cpu0/cpufreq/vdd_levels";

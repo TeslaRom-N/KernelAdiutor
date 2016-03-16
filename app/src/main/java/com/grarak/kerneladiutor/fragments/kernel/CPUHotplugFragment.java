@@ -543,7 +543,6 @@ public class CPUHotplugFragment extends RecyclerViewFragment implements
         }
 
     }
-
     private void msmHotplugInit() {
         List<DAdapter.DView> views = new ArrayList<>();
 
