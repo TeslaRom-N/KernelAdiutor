@@ -51,12 +51,14 @@ public class BatteryFragment extends RecyclerViewFragment implements
 
     private SwitchCardView.DSwitchCard mCustomChargeRateEnableCard;
     private SeekBarCardView.DSeekBarCard mChargingRateCard;
+    private SeekBarCardView.DSeekBarCard mlowpowervalueCard;
+
 
     @Override
     public void init(Bundle savedInstanceState) {
         super.init(savedInstanceState);
-
         batteryLevelInit();
+        lowpowervalueInit();
         batteryVoltageInit();
         batteryTemperatureInit();
         batteryChargingCurrentInit();
@@ -76,12 +78,27 @@ public class BatteryFragment extends RecyclerViewFragment implements
         if (getCount() < 4) showApplyOnBoot(false);
     }
 
+
     private void batteryLevelInit() {
         mBatteryLevelCard = new UsageCardView.DUsageCard();
         mBatteryLevelCard.setText(getString(R.string.battery_level));
 
         addView(mBatteryLevelCard);
     }
+
+    private void lowpowervalueInit() {
+         if (Battery.haslowpowervalue()) {
+            List<String> list = new ArrayList<>();
+            for (int i = 0; i < 101; i++) list.add(String.valueOf(i));
+
+            mlowpowervalueCard = new SeekBarCardView.DSeekBarCard(list);
+            mlowpowervalueCard.setTitle(getString(R.string.lowpowervalue));
+            mlowpowervalueCard.setDescription(getString(R.string.lowpowervalue_summary));
+            mlowpowervalueCard.setProgress(Battery.getlowpowervalue());
+            mlowpowervalueCard.setOnDSeekBarCardListener(this);
+
+            addView(mlowpowervalueCard);
+        }}
 
     private void batteryVoltageInit() {
         mBatteryVoltageCard = new CardViewItem.DCardView();
@@ -192,6 +209,8 @@ public class BatteryFragment extends RecyclerViewFragment implements
             Battery.setBlx(position, getActivity());
         else if (dSeekBarCard == mChargingRateCard)
             Battery.setChargingRate((position * 10) + 100, getActivity());
+        else if (dSeekBarCard == mlowpowervalueCard)
+            Battery.setlowpowervalue((position) ,getActivity());
     }
 
     @Override

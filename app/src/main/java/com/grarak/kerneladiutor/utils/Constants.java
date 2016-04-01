@@ -609,8 +609,9 @@ public interface Constants {
     String CHARGE_RATE = "sys/kernel/thundercharge_control";
     String CHARGE_RATE_ENABLE = CHARGE_RATE + "/enabled";
     String CUSTOM_CHARGING_RATE = CHARGE_RATE + "/custom_current";
+    String LOW_POWER_VALUE= "sys/module/battery_current_limit/parameters/low_battery_value";	
 
-    String[] BATTERY_ARRAY = {FORCE_FAST_CHARGE, BLX, CHARGE_RATE};
+    String[] BATTERY_ARRAY = {FORCE_FAST_CHARGE, BLX, CHARGE_RATE, LOW_POWER_VALUE};
 
     // Battery charging current
     String[] BATTERY_CHARGING_CURRENT = {
