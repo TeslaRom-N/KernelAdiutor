@@ -2,9 +2,9 @@
 <resources>
     <color name="semi_transparent">#26000000</color>
 
-    <color name="color_primary">#000000</color>
-    <color name="color_primary_dark">#000000</color>
-    <color name="color_primary_light">#242424</color>
+    <color name="color_primary">#2A7289</color>
+    <color name="color_primary_dark">#1b2023</color>
+    <color name="color_primary_light">#1b2023</color>
 
     <color name="statusbar_color">@color/actionbar_color</color>
     <color name="actionbar_color">@color/color_primary</color>
@@ -20,23 +20,24 @@
     <color name="black">#000000</color>
 
     <color name="profile_list_text">@color/white</color>
-    <color name="profile_list_background">#000000</color>
+    <color name="profile_list_background">#21272b</color>
 
-    <color name="circlebar_background_light">@color/textcolor_light</color>
+    <color name="circlebar_background_light">@color/textcolor_dark</color>
     <color name="circlebar_background_dark">@color/textcolor_dark</color>
-    <color name="circlebar_text">#009688</color>
+    <color name="circlebar_text">@color/color_primary</color>
 
-    <color name="divider_background_light">#009688</color>
-    <color name="divider_background_dark">#009688</color>
+    <color name="divider_background_light">#3c4145</color>
+    <color name="divider_background_dark">#3c4145</color>
 
-    <color name="navigationdrawer_background_light">@color/white</color>
+    <color name="navigationdrawer_background_light">#21272b</color>
     <color name="navigationdrawer_background_dark">#21272b</color>
-    <color name="navigationdrawer_selected_background_light">#1A000000</color>
+    <color name="navigationdrawer_selected_background_light">#009688FF</color>
     <color name="navigationdrawer_selected_background_dark">#009688FF</color>
 
-    <color name="card_background_light">#000000</color>
-    <color name="card_background_dark">#000000</color>
+    <color name="card_background_light">#21272b</color>
+    <color name="card_background_dark">#21272b</color>
 
     <color name="textcolor_light">#FFFFFF</color>
     <color name="textcolor_dark">#FFFFFF</color>
 </resources>
+
