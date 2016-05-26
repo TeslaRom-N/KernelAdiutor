@@ -65,6 +65,7 @@
         <item>@string/delete</item>
         <item>@string/information</item>
         <item>@string/set_per_app</item>
+        <item>@string/New_RadioButton</item>
     </string-array>
 
     <!-- Misc -->
