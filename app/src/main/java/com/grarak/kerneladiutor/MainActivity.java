@@ -614,7 +614,7 @@ public class MainActivity extends BaseActivity implements Constants {
             public void onError() {
                 Log.w(TAG, "update check onSuccess");
             }
-        } , getString(R.string.APP_UPDATE_URL));
+        } , this);
     }
 
 }
