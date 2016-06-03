@@ -60,6 +60,8 @@ public class MiscFragment extends RecyclerViewFragment implements PopupCardView.
 
     private SwitchCardView.DSwitchCard mEnableUsbOtgCard;
 
+    private SwitchCardView.DSwitchCard mswitchbuttonsCard;
+
     @Override
     public void init(Bundle savedInstanceState) {
         super.init(savedInstanceState);
@@ -67,6 +69,7 @@ public class MiscFragment extends RecyclerViewFragment implements PopupCardView.
         selinuxInit();
         networkInit();
         if (Misc.hasVibration()) vibrationInit();
+        if (Misc.hasswitchbuttons()) switchbuttonsInit();
         if (Misc.hasLoggerEnable()) loggerInit();
         if (Misc.hasBcl()) bclInit();
         if (Misc.hasBclHotplug()) bclHotplugInit();
@@ -163,6 +166,18 @@ public class MiscFragment extends RecyclerViewFragment implements PopupCardView.
             mDynamicFsyncCard.setOnDSwitchCardListener(this);
 
             addView(mDynamicFsyncCard);
+        }
+    }
+
+    private void switchbuttonsInit() {
+        if (Misc.hasswitchbuttons()) {
+            mswitchbuttonsCard = new SwitchCardView.DSwitchCard();
+            mswitchbuttonsCard.setTitle(getString(R.string.switchbuttons));
+            mswitchbuttonsCard.setDescription(getString(R.string.switchbuttons_summary));
+            mswitchbuttonsCard.setChecked(Misc.isswitchbuttonsActive());
+            mswitchbuttonsCard.setOnDSwitchCardListener(this);
+
+            addView(mswitchbuttonsCard);
         }
     }
 
@@ -316,6 +331,8 @@ public class MiscFragment extends RecyclerViewFragment implements PopupCardView.
 	   		Misc.activateLedMode(checked, getActivity());
         else if (dSwitchCard == mDynamicFsyncCard)
             Misc.activateDynamicFsync(checked, getActivity());
+        else if (dSwitchCard == mswitchbuttonsCard)
+            Misc.activateswitchbuttons(checked, getActivity());
         else if (dSwitchCard == mGentleFairSleepersCard)
             Misc.activateGentleFairSleepers(checked, getActivity());
         else if (dSwitchCard == mEnableUsbOtgCard)
