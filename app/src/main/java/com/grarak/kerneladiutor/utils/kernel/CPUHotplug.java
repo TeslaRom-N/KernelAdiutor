@@ -1750,12 +1750,4 @@ public class CPUHotplug implements Constants {
         return Utils.existFile(MSMPERFORMANCE);
     }
 
-    public static int getmsmperformance() {
-        return Utils.stringToInt(Utils.readFile(MSMPERFORMANCE));
-    }
-
-    public static void setmsmperformance(int value, Context context) {
-        Control.runCommand(Integer.toString(value), MSMPERFORMANCE, Control.CommandType.GENERIC, context);
-    }
-
 }
