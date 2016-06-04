@@ -166,6 +166,14 @@ public class CPUHotplugFragment extends RecyclerViewFragment implements
     private SeekBarCardView.DSeekBarCard mStateHelper_batt_level_eco_Card, mStateHelper_max_cpus_eco_Card,mStateHelper_batt_level_cri_Card,
             mStateHelper_max_cpus_cri_Card, mStateHelper_max_cpus_online_Card, mStateHelper_max_cpus_susp_Card;
 
+    private SwitchCardView.DSwitchCard mClusterplugHotplugEnableCard;
+    private SwitchCardView.DSwitchCard mClusterplugHotplugLowPowerModeCard;
+    private SeekBarCardView.DSeekBarCard mClusterplugHotplugSamplingRateCard;
+    private SeekBarCardView.DSeekBarCard mClusterplugHotplugCpuDownRateCard;
+    private SeekBarCardView.DSeekBarCard mClusterplugHotplugCpuUpRateCard;
+    private SeekBarCardView.DSeekBarCard mClusterplugHotplugVoteDownCard;
+    private SeekBarCardView.DSeekBarCard mClusterplugHotplugVoteUpCard;
+
     @Override
     public void init(Bundle savedInstanceState) {
         super.init(savedInstanceState);
@@ -184,6 +192,7 @@ public class CPUHotplugFragment extends RecyclerViewFragment implements
         if (CPUHotplug.hasMSMSleeperEnable()) msmSleeperInit();
         if (CPUHotplug.hasStateHelperEnable()) msmState_Helper_Init();
         if (CPUHotplug.hasbch()) bchInit();
+        if (CPUHotplug.hasClusterplugHotplugEnable()) clustercardHotplugInit();
         tunablesInit();
     }
 
@@ -347,6 +356,18 @@ public class CPUHotplugFragment extends RecyclerViewFragment implements
             mStateHelperEnableCard.setOnDSwitchCardListener(this);
 
             addView(mStateHelperEnableCard);
+        }
+    }
+
+    private void clustercardHotplugInit() {
+        if (CPUHotplug.hasClusterplugHotplugEnable()) {
+            mClusterplugHotplugEnableCard = new SwitchCardView.DSwitchCard();
+            mClusterplugHotplugEnableCard.setTitle(getString(R.string.clusterplug_hotplug));
+            mClusterplugHotplugEnableCard.setDescription(getString(R.string.clusterplug_hotplug_summary));
+            mClusterplugHotplugEnableCard.setChecked(CPUHotplug.isClusterplugHotplugActive());
+            mClusterplugHotplugEnableCard.setOnDSwitchCardListener(this);
+
+            addView(mClusterplugHotplugEnableCard);
         }
     }
 
@@ -1784,6 +1805,93 @@ public class CPUHotplugFragment extends RecyclerViewFragment implements
 
         }
 
+        if (CPUHotplug.isClusterplugHotplugActive() || (!CPUHotplug.hasClusterplugHotplugEnable() && CPUHotplug.hasClusterplugHotplug())) {
+            DDivider mClusterplugDivider = new DDivider();
+            mClusterplugDivider.setText(getString(R.string.clusterplug_hotplug));
+            if (!CPUHotplug.hasClusterplugHotplugEnable() && CPUHotplug.hasClusterplugHotplug()) {
+                mClusterplugDivider.setDescription(getString(R.string.no_enable_toggle));
+            }
+            views.add(mClusterplugDivider);
+
+            if (CPUHotplug.hasClusterplugHotplugLowPowerMode()) {
+                mClusterplugHotplugLowPowerModeCard = new SwitchCardView.DSwitchCard();
+                mClusterplugHotplugLowPowerModeCard.setTitle(getString(R.string.low_power_mode));
+                mClusterplugHotplugLowPowerModeCard.setDescription(getString(R.string.low_power_mode_summary));
+                mClusterplugHotplugLowPowerModeCard.setChecked(CPUHotplug.isClusterplugHotplugLowPowerModeActive());
+                mClusterplugHotplugLowPowerModeCard.setOnDSwitchCardListener(this);
+
+                views.add(mClusterplugHotplugLowPowerModeCard);
+            }
+
+            if (CPUHotplug.hasClusterplugHotplugSamplingRate()) {
+                List<String> list = new ArrayList<>();
+                for (int i = 1; i < 101; i++)
+                    list.add(i + "ms");
+
+                mClusterplugHotplugSamplingRateCard = new SeekBarCardView.DSeekBarCard(list);
+                mClusterplugHotplugSamplingRateCard.setTitle(getString(R.string.sampling_rate));
+                mClusterplugHotplugSamplingRateCard.setProgress(CPUHotplug.getClusterplugHotplugSamplingRate() - 1);
+                mClusterplugHotplugSamplingRateCard.setOnDSeekBarCardListener(this);
+
+                views.add(mClusterplugHotplugSamplingRateCard);
+            }
+
+        
+            if (CPUHotplug.hasClusterplugHotplugVoteDown()) {
+                List<String> list = new ArrayList<>();
+                for (int i = 1; i < 8; i++)
+                    list.add(i + "");
+
+                mClusterplugHotplugVoteDownCard = new SeekBarCardView.DSeekBarCard(list);
+                mClusterplugHotplugVoteDownCard.setTitle(getString(R.string.Vote_down_rate));
+                mClusterplugHotplugVoteDownCard.setProgress(CPUHotplug.getClusterplugHotplugVoteDown() - 1);
+                mClusterplugHotplugVoteDownCard.setOnDSeekBarCardListener(this);
+
+                views.add(mClusterplugHotplugVoteDownCard);
+            }
+
+            if (CPUHotplug.hasClusterplugHotplugVoteUp()) {
+                List<String> list = new ArrayList<>();
+                for (int i = 1; i < 8; i++)
+                    list.add(i + "");
+
+                mClusterplugHotplugVoteUpCard = new SeekBarCardView.DSeekBarCard(list);
+                mClusterplugHotplugVoteUpCard.setTitle(getString(R.string.Vote_up_rate));
+                mClusterplugHotplugVoteUpCard.setProgress(CPUHotplug.getClusterplugHotplugVoteUp() - 1);
+                mClusterplugHotplugVoteUpCard.setOnDSeekBarCardListener(this);
+
+                views.add(mClusterplugHotplugVoteUpCard);
+            }
+
+           
+            if (CPUHotplug.hasClusterplugHotplugCpuDownRate()) {
+                List<String> list = new ArrayList<>();
+                for (int i = 1; i < 101; i++)
+                    list.add(i + "");
+
+                mClusterplugHotplugCpuDownRateCard = new SeekBarCardView.DSeekBarCard(list);
+                mClusterplugHotplugCpuDownRateCard.setTitle(getString(R.string.cpu_down_rate));
+                mClusterplugHotplugCpuDownRateCard.setProgress(CPUHotplug.getClusterplugHotplugCpuDownRate() - 1);
+                mClusterplugHotplugCpuDownRateCard.setOnDSeekBarCardListener(this);
+
+                views.add(mClusterplugHotplugCpuDownRateCard);
+            }
+
+            if (CPUHotplug.hasClusterplugHotplugCpuUpRate()) {
+                List<String> list = new ArrayList<>();
+                for (int i = 1; i < 101; i++)
+                    list.add(i + "");
+
+                mClusterplugHotplugCpuUpRateCard = new SeekBarCardView.DSeekBarCard(list);
+                mClusterplugHotplugCpuUpRateCard.setTitle(getString(R.string.cpu_up_rate));
+                mClusterplugHotplugCpuUpRateCard.setProgress(CPUHotplug.getClusterplugHotplugCpuUpRate() - 1);
+                mClusterplugHotplugCpuUpRateCard.setOnDSeekBarCardListener(this);
+
+                views.add(mClusterplugHotplugCpuUpRateCard);
+            }
+        }
+
+
         // StateHelper Tunables
         if (CPUHotplug.isStateHelperActive() || (!CPUHotplug.hasStateHelperEnable() && CPUHotplug.hasStateHelper())) {
             DDivider mStateHelperDividerCard = new DDivider();
@@ -1940,7 +2048,10 @@ public class CPUHotplugFragment extends RecyclerViewFragment implements
             CPUHotplug.activateLazyPlugTouchBoost(checked, getActivity());
         else if (dSwitchCard == mbchCard)
             CPUHotplug.activatebch(checked, getActivity());
-        view.invalidate();
+        else if (dSwitchCard == mClusterplugHotplugEnableCard)
+            CPUHotplug.activateClusterplugHotplug(checked, getActivity());
+        else if (dSwitchCard == mClusterplugHotplugLowPowerModeCard)
+            CPUHotplug.activateClusterplugHotplugLowPowerMode(checked, getActivity());
         getActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
 
     }
@@ -2149,5 +2260,15 @@ public class CPUHotplugFragment extends RecyclerViewFragment implements
         else if (dSeekBarCard == mStateHelper_max_cpus_susp_Card)
             CPUHotplug.setStateHelperMaxCpusSuspend(position + 1, getActivity());
 
+        else if (dSeekBarCard == mClusterplugHotplugSamplingRateCard)
+            CPUHotplug.setClusterplugHotplugSamplingRate(position + 1, getActivity());
+        else if (dSeekBarCard == mClusterplugHotplugVoteDownCard)
+            CPUHotplug.setClusterplugHotplugVoteDown(position + 1, getActivity());
+        else if (dSeekBarCard == mClusterplugHotplugVoteUpCard)
+            CPUHotplug.setClusterplugHotplugVoteUp(position + 1, getActivity());
+        else if (dSeekBarCard == mClusterplugHotplugCpuDownRateCard)
+            CPUHotplug.setClusterplugHotplugCpuDownRate(position + 1, getActivity());
+        else if (dSeekBarCard == mClusterplugHotplugCpuUpRateCard)
+            CPUHotplug.setClusterplugHotplugCpuUpRate(position + 1, getActivity());
     }
 }

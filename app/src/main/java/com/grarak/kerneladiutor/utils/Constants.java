@@ -297,6 +297,17 @@ public interface Constants {
 
     String[] HOTPLUG_LAZYPLUG_ARRAY = {HOTPLUG_LAZYPLUG_PARAMETERS};
 
+    String CLUSTERPLUG_HOTPLUG = "/sys/module/cluster_plug/parameters";
+    String CLUSTERPLUG_HOTPLUG_ENABLE = CLUSTERPLUG_HOTPLUG + "/active";
+    String CLUSTERPLUG_HOTPLUG_SAMPLING_RATE = CLUSTERPLUG_HOTPLUG + "/sampling_time";
+    String CLUSTERPLUG_HOTPLUG_LOWPOWER = CLUSTERPLUG_HOTPLUG + "/low_power_mode";
+    String CLUSTERPLUG_HOTPLUG_VOTE_DOWN = CLUSTERPLUG_HOTPLUG + "/vote_threshold_down";
+    String CLUSTERPLUG_HOTPLUG_VOTE_UP = CLUSTERPLUG_HOTPLUG + "/vote_threshold_up";
+    String CLUSTERPLUG_HOTPLUG_CPU_DOWN_RATE = CLUSTERPLUG_HOTPLUG + "/load_treshold_down";
+    String CLUSTERPLUG_HOTPLUG_CPU_UP_RATE = CLUSTERPLUG_HOTPLUG + "/load_treshold_up";
+
+    String[] CLUSTERPLUG_HOTPLUG_ARRAY = {CLUSTERPLUG_HOTPLUG};
+
     String MSM_SLEEPER = "/sys/devices/platform/msm_sleeper";
     String MSM_SLEEPER_ENABLE = MSM_SLEEPER + "/enabled";
     String MSM_SLEEPER_UP_THRESHOLD = MSM_SLEEPER + "/up_threshold";
