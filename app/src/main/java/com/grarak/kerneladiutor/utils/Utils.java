@@ -546,6 +546,6 @@ public class Utils implements Constants {
                 return paths[i];
             }
         }
-        return "";
+        return null;
     }
 }
