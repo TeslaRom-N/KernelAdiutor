@@ -89,7 +89,18 @@ public class BootService extends Service {
         final List<String> applys = new ArrayList<>();
         final List<String> plugins = new ArrayList<>();
 
-        CPUVoltage.storeVoltageTable(getApplicationContext());
+        List<String> freqs = CPUVoltage.getFreqs();
+        List<String> voltages = CPUVoltage.getVoltages();
+        Map<String, String> freqtable = new HashMap<String, String>();
+
+        // Store Kernel's Stock Freq/Voltage table
+        SharedPreferences.Editor preferences = getSharedPreferences("voltage_table", 0).edit();
+        for (int i = 0; i < freqs.size(); i++) {
+            freqtable.put(freqs.get(i), voltages.get(i));
+            preferences.putString(freqs.get(i), voltages.get(i));
+        }
+        preferences.commit();
+        Log.i(Constants.TAG, "FreqTable: " + freqtable);
 
 
         if (Screen.hasScreenHBM() && Utils.getBoolean("AutoHBM", false, getApplicationContext())) {
