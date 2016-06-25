@@ -17,13 +17,11 @@
 package com.grarak.kerneladiutor.fragments.kernel;
 
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,13 +32,10 @@ import com.grarak.kerneladiutor.R;
 import com.grarak.kerneladiutor.elements.cards.EditTextCardView;
 import com.grarak.kerneladiutor.elements.cards.SwitchCardView;
 import com.grarak.kerneladiutor.fragments.RecyclerViewFragment;
-import com.grarak.kerneladiutor.utils.Constants;
 import com.grarak.kerneladiutor.utils.Utils;
 import com.grarak.kerneladiutor.utils.kernel.CPUVoltage;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by willi on 26.12.14.
@@ -50,7 +45,6 @@ public class CPUVoltageFragment extends RecyclerViewFragment implements
 
     private EditTextCardView.DEditTextCard[] mVoltageCard;
     private SwitchCardView.DSwitchCard mOverrideVminCard;
-    Map<String, String> voltagetable = new HashMap<String, String>();
 
     @Override
     public int getSpan() {
@@ -63,12 +57,6 @@ public class CPUVoltageFragment extends RecyclerViewFragment implements
     @Override
     public void init(Bundle savedInstanceState) {
         super.init(savedInstanceState);
-
-        SharedPreferences storedvoltagetable = getContext().getSharedPreferences("voltage_table", 0);
-        for( Map.Entry entry : storedvoltagetable.getAll().entrySet() )
-            voltagetable.put( entry.getKey().toString(), entry.getValue().toString() );
-
-        Log.i(Constants.TAG, "Volt Table: " + voltagetable);
 
         mVoltageCard = new EditTextCardView.DEditTextCard[CPUVoltage.getFreqs().size()];
         List<String> voltages = CPUVoltage.getVoltages();
@@ -91,22 +79,7 @@ public class CPUVoltageFragment extends RecyclerViewFragment implements
                     .getFreqs().get(i)) / 1000) : CPUVoltage.getFreqs().get(i);
             mVoltageCard[i].setTitle(freq + getString(R.string.mhz));
 
-            if (voltagetable.get(CPUVoltage.getFreqs().get(i)) != null) {
-                int stock = Integer.parseInt(voltagetable.get(CPUVoltage.getFreqs().get(i)));
-                int current = Integer.parseInt(voltages.get(i));
-                String diff;
-                if (stock > current) {
-                    diff =  "(-" + (stock-current) +")";
-                } else if (stock < current) {
-                    diff = "(+" + (current - stock) + ")";
-                }
-                else {
-                    diff = "";
-                }
-                mVoltageCard[i].setDescription(voltages.get(i) + getString(R.string.mv) + diff);
-            } else {
-                mVoltageCard[i].setDescription(voltages.get(i) + getString(R.string.mv));
-            }
+            mVoltageCard[i].setDescription(voltages.get(i) + getString(R.string.mv));
             mVoltageCard[i].setValue(voltages.get(i));
             mVoltageCard[i].setInputType(InputType.TYPE_CLASS_NUMBER);
             mVoltageCard[i].setOnDEditTextCardListener(new EditTextCardView.DEditTextCard.OnDEditTextCardListener() {
@@ -141,22 +114,7 @@ public class CPUVoltageFragment extends RecyclerViewFragment implements
                             if (voltages != null)
                                 for (int i = 0; i < mVoltageCard.length; i++) {
                                     try {
-                                        if (voltagetable.get(CPUVoltage.getFreqs().get(i)) != null) {
-                                            int stock = Integer.parseInt(voltagetable.get(CPUVoltage.getFreqs().get(i)));
-                                            int current = Integer.parseInt(voltages.get(i));
-                                            String diff;
-                                            if (stock > current) {
-                                                diff =  "(-" + (stock-current) +")";
-                                            } else if (stock < current) {
-                                                diff = "(+" + (current - stock) + ")";
-                                            }
-                                            else {
-                                                diff = "";
-                                            }
-                                            mVoltageCard[i].setDescription(voltages.get(i) + getString(R.string.mv) + diff);
-                                        } else {
-                                            mVoltageCard[i].setDescription(voltages.get(i) + getString(R.string.mv));
-                                        }
+                                        mVoltageCard[i].setDescription(voltages.get(i) + getString(R.string.mv));
                                         mVoltageCard[i].setValue(voltages.get(i));
                                     } catch (IndexOutOfBoundsException e) {
                                         e.printStackTrace();
