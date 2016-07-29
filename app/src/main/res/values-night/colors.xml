@@ -7,7 +7,7 @@
     <color name="color_primary_light">#000000</color>
 
     <color name="statusbar_color">@color/color_primary_dark</color>
-    <color name="actionbar_color">@color/color_primary</color>
+    <color name="actionbar_color">#424242</color>
 
     <color name="fab_normal">#009688</color>
     <color name="fab_pressed">#009688</color>
