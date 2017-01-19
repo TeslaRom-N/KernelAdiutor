@@ -821,7 +821,7 @@ public class CPU implements Constants {
     public static List<Integer> getLITTLECoreRange() {
         List<Integer> list = new ArrayList<>();
         if (!isBigLITTLE()) for (int i = 0; i < getCoreCount(); i++) list.add(i);
-        else if (getLITTLEcore() == 0) for (int i = 0; i < bigCore; i++) list.add(i);
+        else if (getLITTLEcore() == 0) for (int i = 0; i < 4; i++) list.add(i);
         else for (int i = getLITTLEcore(); i < getCoreCount(); i++) list.add(i);
         return list;
     }
@@ -829,7 +829,7 @@ public class CPU implements Constants {
     public static List<Integer> getBigCoreRange() {
         List<Integer> list = new ArrayList<>();
         if (!isBigLITTLE()) for (int i = 0; i < getCoreCount(); i++) list.add(i);
-        else if (getBigCore() == 0) for (int i = 0; i < LITTLEcore; i++) list.add(i);
+        else if (getBigCore() == 0) for (int i = 0; i < 4; i++) list.add(i);
         else for (int i = getBigCore(); i < getCoreCount(); i++) list.add(i);
         return list;
     }
@@ -845,15 +845,13 @@ public class CPU implements Constants {
     }
 
     public static boolean isBigLITTLE() {
+        boolean bigLITTLE = getCoreCount() > 4;
+        if (!bigLITTLE) return false;
+
         if (bigCore == -1 || LITTLEcore == -1) {
-            int cores = getCoreCount();
-
             List<Integer> cpu0Freqs = getFreqs(0);
-            List<Integer> cpu2Freqs;
-            List<Integer> cpu4Freqs;
-
-            if(cores > 4) {
-                cpu4Freqs = getFreqs(4);
+            List<Integer> cpu4Freqs = getFreqs(4);
+            if (cpu0Freqs != null && cpu4Freqs != null) {
                 if (cpu0Freqs.size() > cpu4Freqs.size()) {
                     bigCore = 0;
                     LITTLEcore = 4;
@@ -861,19 +859,9 @@ public class CPU implements Constants {
                     bigCore = 4;
                     LITTLEcore = 0;
                 }
-            } else if(cores > 3) {
-                cpu2Freqs = getFreqs(2);
-                if (cpu0Freqs.size() > cpu2Freqs.size()) {
-                    bigCore = 0;
-                    LITTLEcore = 2;
-                } else {
-                    bigCore = 2;
-                    LITTLEcore = 0;
-                }
-            } else if(cores <= 2) {
-                return false;
             }
         }
+
         return bigCore != -1 && LITTLEcore != -1;
     }
 
